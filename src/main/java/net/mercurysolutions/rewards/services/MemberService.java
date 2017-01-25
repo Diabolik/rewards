@@ -11,17 +11,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-import net.mercurysolutions.rewards.domain.User;
-import net.mercurysolutions.rewards.jpa.UserRepository;
+import net.mercurysolutions.rewards.domain.Member;
+import net.mercurysolutions.rewards.jpa.MemberRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class MemberService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private MemberRepository userRepository;
 	
 	@PersistenceContext(type = PersistenceContextType.TRANSACTION)
 	private EntityManager entityManager;
@@ -32,8 +32,8 @@ public class UserService {
 	 * @param email
 	 * @return
 	 */
-	public User findByEmail(String email) {
-		User user = userRepository.findByEmail(email);
+	public Member findByEmail(String email) {
+		Member user = userRepository.findByEmail(email);
 		return user;
 	}
 	
@@ -43,8 +43,8 @@ public class UserService {
 	 * @param nickname
 	 * @return
 	 */
-	public User findByNickname(String nickname) {
-		User user = userRepository.findByNickname(nickname);
+	public Member findByNickname(String nickname) {
+		Member user = userRepository.findByNickname(nickname);
 		return user;
 	}
 	
@@ -54,8 +54,8 @@ public class UserService {
 	 * @param email
 	 * @return
 	 */
-	public List<User> findAllByEmailAndPassword(String email, String password) {
-		List<User> users = userRepository.findAllByEmailAndPassword(email, password);
+	public List<Member> findAllByEmailAndPassword(String email, String password) {
+		List<Member> users = userRepository.findAllByEmailAndPassword(email, password);
 		return users;
 	}
 
@@ -65,8 +65,8 @@ public class UserService {
 	 * @param nickname
 	 * @return
 	 */
-	public List<User> findByNicknameAndPassword(String nickname, String password) {
-		List<User> users = userRepository.findAllByNicknameAndPassword(nickname, password);
+	public List<Member> findByNicknameAndPassword(String nickname, String password) {
+		List<Member> users = userRepository.findAllByNicknameAndPassword(nickname, password);
 		return users;
 	}
 	
@@ -76,8 +76,8 @@ public class UserService {
 	 * @param id
 	 * @return
 	 */
-	public User findUserDetached(long id) {
-		User user = userRepository.findOne(id);
+	public Member findUserDetached(long id) {
+		Member user = userRepository.findOne(id);
 		entityManager.detach(user);
 		return user;
 	}
@@ -100,8 +100,8 @@ public class UserService {
 	 * 
 	 * @return Saved user
 	 */
-	public User save(User user) {
-		User savedUser = userRepository.save(user);
+	public Member save(Member user) {
+		Member savedUser = userRepository.save(user);
 		return savedUser;
 	}
 }

@@ -10,7 +10,7 @@ public class CommentEntity {
 
 	private String comment;
 
-	private UserEntity owner;
+	private MemberEntity owner;
 
 	private LocationEntity location;
 
@@ -47,7 +47,7 @@ public class CommentEntity {
 	/**
 	 * @return the owner
 	 */
-	public UserEntity getOwner() {
+	public MemberEntity getOwner() {
 		return owner;
 	}
 
@@ -55,7 +55,7 @@ public class CommentEntity {
 	 * @param owner
 	 *            the owner to set
 	 */
-	public void setOwner(UserEntity owner) {
+	public void setOwner(MemberEntity owner) {
 		this.owner = owner;
 	}
 

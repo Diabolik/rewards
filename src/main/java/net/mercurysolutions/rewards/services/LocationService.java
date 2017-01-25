@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-import net.mercurysolutions.rewards.domain.Location;
+import net.mercurysolutions.rewards.domain.Business;
 import net.mercurysolutions.rewards.jpa.LocationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,8 @@ public class LocationService {
 	 * @param id
 	 * @return
 	 */
-	public Location findLocationDetached(long id) {
-		Location location = locationRepository.findOne(id);
+	public Business findLocationDetached(long id) {
+		Business location = locationRepository.findOne(id);
 		entityManager.detach(location);
 		return location;
 	}
@@ -44,8 +44,8 @@ public class LocationService {
 	 * 
 	 * @return Saved location
 	 */
-	public Location save(Location location) {
-		Location savedLocation = locationRepository.save(location);
+	public Business save(Business location) {
+		Business savedLocation = locationRepository.save(location);
 		return savedLocation;
 	}
 }

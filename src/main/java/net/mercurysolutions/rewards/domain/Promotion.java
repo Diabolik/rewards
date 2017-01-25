@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SuppressWarnings("serial")
 @Entity
-public class GalleryItem extends BaseObject implements IModel{
+public class Promotion extends BaseObject implements IModel{
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -23,10 +23,10 @@ public class GalleryItem extends BaseObject implements IModel{
 	private String url;
 
 	@OneToOne
-	private User owner;
+	private Member owner;
 
 	@ManyToOne
-	private Location location;
+	private Business location;
 
 	@Override
 	public Object toEntity() {
@@ -68,7 +68,7 @@ public class GalleryItem extends BaseObject implements IModel{
 	/**
 	 * @return the owner
 	 */
-	public User getOwner() {
+	public Member getOwner() {
 		return owner;
 	}
 
@@ -76,14 +76,14 @@ public class GalleryItem extends BaseObject implements IModel{
 	 * @param owner
 	 *            the owner to set
 	 */
-	public void setOwner(User owner) {
+	public void setOwner(Member owner) {
 		this.owner = owner;
 	}
 
 	/**
 	 * @return the location
 	 */
-	public Location getLocation() {
+	public Business getLocation() {
 		return location;
 	}
 
@@ -91,7 +91,7 @@ public class GalleryItem extends BaseObject implements IModel{
 	 * @param location
 	 *            the location to set
 	 */
-	public void setLocation(Location location) {
+	public void setLocation(Business location) {
 		this.location = location;
 	}
 }

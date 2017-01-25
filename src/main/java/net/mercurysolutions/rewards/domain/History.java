@@ -24,7 +24,7 @@ import net.mercurysolutions.rewards.interfaces.IModel;
 
 @SuppressWarnings("serial")
 @Entity
-public class Location extends BaseObject implements IModel {
+public class History extends BaseObject implements IModel {
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -40,7 +40,7 @@ public class Location extends BaseObject implements IModel {
 
 	@OneToOne
 	@JsonIgnore
-	private User owner;
+	private Member owner;
 	
 	@OneToOne
 	@JsonIgnore
@@ -50,7 +50,7 @@ public class Location extends BaseObject implements IModel {
 	private Set<Comment> comments;
 	
 	@OneToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "location")
-	private Set<GalleryItem> gallery;
+	private Set<Promotion> gallery;
 	
 	@Override
 	public Object toEntity() {
@@ -118,14 +118,14 @@ public class Location extends BaseObject implements IModel {
 	/**
 	 * @return the owner
 	 */
-	public User getOwner() {
+	public Member getOwner() {
 		return owner;
 	}
 
 	/**
 	 * @param owner the owner to set
 	 */
-	public void setOwner(User owner) {
+	public void setOwner(Member owner) {
 		this.owner = owner;
 	}
 	
@@ -160,14 +160,14 @@ public class Location extends BaseObject implements IModel {
 	/**
 	 * @return the gallery
 	 */
-	public Set<GalleryItem> getGallery() {
+	public Set<Promotion> getGallery() {
 		return gallery;
 	}
 
 	/**
 	 * @param gallery the gallery to set
 	 */
-	public void setGallery(Set<GalleryItem> gallery) {
+	public void setGallery(Set<Promotion> gallery) {
 		this.gallery = gallery;
 	}
 }

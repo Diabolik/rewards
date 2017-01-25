@@ -21,32 +21,32 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
-import net.mercurysolutions.rewards.domain.User;
-import net.mercurysolutions.rewards.entity.UserEntity;
+import net.mercurysolutions.rewards.domain.Member;
+import net.mercurysolutions.rewards.entity.MemberEntity;
 import net.mercurysolutions.rewards.exception.EventsErrorCode;
-import net.mercurysolutions.rewards.services.UserService;
+import net.mercurysolutions.rewards.services.MemberService;
 
 @RestController
 @RequestMapping("/api")
 @Api(description = "User Model API", value = "")
-public class UserController {
+public class MemberController {
 
-	private final static Log log = LogFactory.getLog(UserController.class);
+	private final static Log log = LogFactory.getLog(MemberController.class);
 
 	@Autowired
-	private UserService userService;
+	private MemberService userService;
 	
 	@RequestMapping(value = "/users/login", method = RequestMethod.POST)
 	@ApiOperation(value = "User login in sByMe", notes = "User login in sByMe")
-	public ResponseEntity<UserEntity> loginUser(@RequestBody UserEntity user) {
+	public ResponseEntity<MemberEntity> loginUser(@RequestBody MemberEntity user) {
 		String login = user.getEmail();
 		String password = user.getPassword();
 		
-		ResponseEntity<UserEntity> response = null;
+		ResponseEntity<MemberEntity> response = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		
 		//Search the user by email
-		List<User> users = userService.findAllByEmailAndPassword(login, password);
+		List<Member> users = userService.findAllByEmailAndPassword(login, password);
 		
 		if(users.isEmpty()) {
 			//Search the user by nickname
@@ -56,39 +56,39 @@ public class UserController {
 				EventsErrorCode managedError = EventsErrorCode.USER_NOT_FOUND;
 				log.error(managedError);
 				responseHeaders.add("ERROR", managedError.toString());
-				return new ResponseEntity<UserEntity>(null, responseHeaders, HttpStatus.NOT_FOUND);
+				return new ResponseEntity<MemberEntity>(null, responseHeaders, HttpStatus.NOT_FOUND);
 			}
 		}
 		
-		UserEntity entity = (UserEntity) users.get(0).toEntity();
-		response = new ResponseEntity<UserEntity>(entity, HttpStatus.OK);
+		MemberEntity entity = (MemberEntity) users.get(0).toEntity();
+		response = new ResponseEntity<MemberEntity>(entity, HttpStatus.OK);
 		return response;
 	}
 	
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	@ApiOperation(value = "Save the user provided", notes = "Save the user provided")
-	public ResponseEntity<UserEntity> save(@RequestBody UserEntity entity) {
-		ResponseEntity<UserEntity> response = null;
+	public ResponseEntity<MemberEntity> save(@RequestBody MemberEntity entity) {
+		ResponseEntity<MemberEntity> response = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 
 		emailExists(entity.getEmail(), responseHeaders);
 		if (!responseHeaders.isEmpty()) {
-			return new ResponseEntity<UserEntity>(null, responseHeaders, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<MemberEntity>(null, responseHeaders, HttpStatus.NOT_FOUND);
 		}
 
 		nicknameExists(entity.getNickname(), responseHeaders);
 		if (!responseHeaders.isEmpty()) {
-			return new ResponseEntity<UserEntity>(null, responseHeaders, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<MemberEntity>(null, responseHeaders, HttpStatus.NOT_FOUND);
 		}
 
-		User user = (User) entity.toModel();
+		Member user = (Member) entity.toModel();
 		//Filling default data.
 		user.initBasicUser();
 		
 		//Saving and converting user
-		entity = (UserEntity) userService.save(user).toEntity();
+		entity = (MemberEntity) userService.save(user).toEntity();
 
-		response = new ResponseEntity<UserEntity>(entity, HttpStatus.OK);
+		response = new ResponseEntity<MemberEntity>(entity, HttpStatus.OK);
 		return response;
 	}
 	

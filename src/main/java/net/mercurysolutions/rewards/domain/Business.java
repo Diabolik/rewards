@@ -3,41 +3,62 @@
  *   Copyright 2015 Mercury Solutions.
  * *******************************************************************************
  */
-package net.mercurysolutions.rewards.entity;
+package net.mercurysolutions.rewards.domain;
 
 import java.util.Set;
 
-import net.mercurysolutions.rewards.domain.Business;
-import net.mercurysolutions.rewards.interfaces.IEntity;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class LocationEntity implements IEntity{
+import net.mercurysolutions.rewards.entity.LocationEntity;
+import net.mercurysolutions.rewards.interfaces.IModel;
+
+@SuppressWarnings("serial")
+@Entity
+public class Business extends BaseObject implements IModel {
+	@Id
+	@GeneratedValue
 	private Long id;
 	
+	@Column(nullable = false)
 	private String name;
 	
+	@Column(nullable = true)
 	private String description;
 	
+	@Column(nullable = true)
 	private String place;
+
+	@OneToOne
+	@JsonIgnore
+	private Member owner;
 	
-	private boolean visibility;
+	@OneToOne
+	@JsonIgnore
+	private Address address;
+		
+	@OneToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "location")
+	private Set<Comment> comments;
 	
-	private MemberEntity owner;
-	
-	private AddressEntity address;
-	
-	private Set<CommentEntity> comments;
-	
-	private Set<GalleryItemEntity> gallery;
+	@OneToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "location")
+	private Set<Promotion> gallery;
 	
 	@Override
-	public Object toModel() {
+	public Object toEntity() {
 		ObjectMapper mapper = new ObjectMapper();
-		Business location = mapper.convertValue(this, Business.class);
-		return location;
+		LocationEntity entity = mapper.convertValue(this, LocationEntity.class);
+		return entity;
 	}
-	
+
 	/**
 	 * @return the id
 	 */
@@ -95,72 +116,58 @@ public class LocationEntity implements IEntity{
 	}
 
 	/**
-	 * @return the visibility
-	 */
-	public boolean isVisibility() {
-		return visibility;
-	}
-
-	/**
-	 * @param visibility the visibility to set
-	 */
-	public void setVisibility(boolean visibility) {
-		this.visibility = visibility;
-	}
-
-	/**
 	 * @return the owner
 	 */
-	public MemberEntity getOwner() {
+	public Member getOwner() {
 		return owner;
 	}
 
 	/**
 	 * @param owner the owner to set
 	 */
-	public void setOwner(MemberEntity owner) {
+	public void setOwner(Member owner) {
 		this.owner = owner;
 	}
 	
 	/**
 	 * @return the address
 	 */
-	public AddressEntity getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 
 	/**
-	 * @param owner the owner to set
+	 * @param owner the address to set
 	 */
-	public void setAddress(AddressEntity address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 
 	/**
 	 * @return the comments
 	 */
-	public Set<CommentEntity> getComments() {
+	public Set<Comment> getComments() {
 		return comments;
 	}
 
 	/**
 	 * @param comments the comments to set
 	 */
-	public void setComments(Set<CommentEntity> comments) {
+	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
 	}
 
 	/**
 	 * @return the gallery
 	 */
-	public Set<GalleryItemEntity> getGallery() {
+	public Set<Promotion> getGallery() {
 		return gallery;
 	}
 
 	/**
 	 * @param gallery the gallery to set
 	 */
-	public void setGallery(Set<GalleryItemEntity> gallery) {
+	public void setGallery(Set<Promotion> gallery) {
 		this.gallery = gallery;
 	}
 }

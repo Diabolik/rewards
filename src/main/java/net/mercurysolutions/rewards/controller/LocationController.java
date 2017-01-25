@@ -5,11 +5,11 @@
  */
 package net.mercurysolutions.rewards.controller;
 
-import net.mercurysolutions.rewards.domain.Location;
+import net.mercurysolutions.rewards.domain.Business;
 import net.mercurysolutions.rewards.entity.LocationEntity;
 import net.mercurysolutions.rewards.exception.EventsErrorCode;
 import net.mercurysolutions.rewards.services.LocationService;
-import net.mercurysolutions.rewards.services.UserService;
+import net.mercurysolutions.rewards.services.MemberService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,7 +37,7 @@ public class LocationController {
 	private LocationService locationService;
 	
 	@Autowired
-	private UserService userService;
+	private MemberService userService;
 	
 	@RequestMapping(value = "/locations", method = RequestMethod.POST)
 	@ApiOperation(value = "Save the location provided", notes = "Save the location provided")
@@ -62,7 +62,7 @@ public class LocationController {
 			return response;
 		}
 
-		Location location = (Location) entity.toModel();
+		Business location = (Business) entity.toModel();
 
 		//Saving and converting the location
 		entity = (LocationEntity) locationService.save(location).toEntity();

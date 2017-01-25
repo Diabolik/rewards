@@ -6,23 +6,24 @@
 package net.mercurysolutions.rewards.domain;
 
 import java.sql.Date;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import net.mercurysolutions.rewards.entity.UserEntity;
-import net.mercurysolutions.rewards.interfaces.IModel;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.mercurysolutions.rewards.entity.MemberEntity;
+import net.mercurysolutions.rewards.interfaces.IModel;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
 @SuppressWarnings("serial")
 @Entity
-public class User extends BaseObject implements IModel {
+public class Member extends BaseObject implements IModel {
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -34,16 +35,16 @@ public class User extends BaseObject implements IModel {
 	private String lastName;
 
 	@Column(nullable = false)
-	private String nickname;
-
-	@Column(nullable = false)
 	private String email;
 
 	@Column(nullable = false)
-	private String phone;
+	private String nip;
 	
 	@Column (nullable = false)
-	private String location;
+	private int points;
+	
+	@Column(nullable = false)
+	private String image;
 
 	@Column(nullable = false)
 	private Date birthday;
@@ -52,24 +53,14 @@ public class User extends BaseObject implements IModel {
 	private String gender;
 
 	@Column(nullable = false)
-	private String password;
+	private UUID cardNumberId;
 
-	@Column(nullable = false)
-	private String image;
-	
 	@Override
 	public Object toEntity() {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		UserEntity entity = mapper.convertValue(this, UserEntity.class);
+		MemberEntity entity = mapper.convertValue(this, MemberEntity.class);
 		return entity;
-	}
-	
-	public void initBasicUser() {
-		this.setPhone("");
-		this.setLocation("");
-		this.setImage("");
-		this.setGender("");
 	}
 
 	/**
@@ -80,8 +71,7 @@ public class User extends BaseObject implements IModel {
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
+	 * @param id the id to set
 	 */
 	public void setId(Long id) {
 		this.id = id;
@@ -95,8 +85,7 @@ public class User extends BaseObject implements IModel {
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -110,26 +99,10 @@ public class User extends BaseObject implements IModel {
 	}
 
 	/**
-	 * @param lastName
-	 *            the lastName to set
+	 * @param lastName the lastName to set
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	/**
-	 * @return the nickname
-	 */
-	public String getNickname() {
-		return nickname;
-	}
-
-	/**
-	 * @param nickname
-	 *            the nickname to set
-	 */
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
 	}
 
 	/**
@@ -140,55 +113,52 @@ public class User extends BaseObject implements IModel {
 	}
 
 	/**
-	 * @param email
-	 *            the email to set
+	 * @param email the email to set
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 	/**
-	 * @return the phone
+	 * @return the nip
 	 */
-	public String getPhone() {
-		return phone;
+	public String getNip() {
+		return nip;
 	}
 
 	/**
-	 * @param phone
-	 *            the phone to set
+	 * @param nip the nip to set
 	 */
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setNip(String nip) {
+		this.nip = nip;
 	}
 
 	/**
-	 * @return the password
+	 * @return the points
 	 */
-	public String getPassword() {
-		return password;
+	public int getPoints() {
+		return points;
 	}
 
 	/**
-	 * @param password
-	 *            the password to set
+	 * @param points the points to set
 	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	/**
-	 * @return the country
-	 */
-	public String getLocation() {
-		return location;
+	public void setPoints(int points) {
+		this.points = points;
 	}
 
 	/**
-	 * @param country the country to set
+	 * @return the image
 	 */
-	public void setLocation(String location) {
-		this.location = location;
+	public String getImage() {
+		return image;
+	}
+
+	/**
+	 * @param image the image to set
+	 */
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	/**
@@ -199,8 +169,7 @@ public class User extends BaseObject implements IModel {
 	}
 
 	/**
-	 * @param birthday
-	 *            the birthday to set
+	 * @param birthday the birthday to set
 	 */
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
@@ -221,17 +190,16 @@ public class User extends BaseObject implements IModel {
 	}
 
 	/**
-	 * @return the image
+	 * @return the cardNumberId
 	 */
-	public String getImage() {
-		return image;
+	public UUID getCardNumberId() {
+		return cardNumberId;
 	}
 
 	/**
-	 * @param image
-	 *            the image to set
+	 * @param cardNumberId the cardNumberId to set
 	 */
-	public void setImage(String image) {
-		this.image = image;
+	public void setCardNumberId(UUID cardNumberId) {
+		this.cardNumberId = cardNumberId;
 	}
 }
